@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Marcos García Sánchez</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ======================== NAVEGACION ======================== -->
+  <header>
+    <nav>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- ======================== HERO ======================== -->
+  <section id="hero">
+    <div class="hero-badge">Disponible para prácticas</div>
+    <h1>Hola, soy<br><span class="hero-nombre">Marcos García Sánchez</span></h1>
+    <p class="hero-subtitulo">
+      Estudiante de DAW · <span id="typing-text"></span><span class="cursor">|</span>
+    </p>
+    <div class="hero-acciones">
+      <a href="#proyectos" class="btn-primario">Ver mis proyectos</a>
+      <a href="#contacto" class="btn-secundario">Contactar</a>
+    </div>
+  </section>
+
+  <!-- ======================== SOBRE MI ======================== -->
+  <section id="sobre-mi" class="reveal">
+    <h2>Sobre mí</h2>
+    <p>
+      Actualmente soy un estudiante de DAW al que le gusta mucho todo lo que tenga que ver
+      con la informática a nivel de programación, desarrollo y software. Algo que me apasiona mucho
+      son los videojuegos, que fue lo que me motivó a estudiar informática decantándome más
+      por el apartado web. Además de estudiar DAW, cuando tengo algo de tiempo libre estoy aprendiendo
+      por mi cuenta a programar en Python y también me estoy sacando el B1 de inglés para posteriormente
+      sacarme el B2 y el C1.
+    </p>
+  </section>
+
+  <!-- ======================== HABILIDADES ======================== -->
+  <section id="habilidades" class="reveal">
+    <h2>Habilidades</h2>
+    <ul class="skills-list">
+      <li>HTML y CSS</li>
+      <li>JavaScript</li>
+      <li>TypeScript</li>
+      <li>React / Next.js</li>
+      <li>Node.js</li>
+      <li>Java</li>
+      <li>Python</li>
+      <li>SQL / PostgreSQL</li>
+      <li>Supabase</li>
+      <li>Git / GitHub</li>
+      <li>Tailwind CSS</li>
+      <li>REST APIs</li>
+    </ul>
+  </section>
+
+  <!-- ======================== PROYECTOS ======================== -->
+  <section id="proyectos" class="reveal">
+    <h2>Proyectos</h2>
+
+    <!-- ChessRadar -->
+    <article class="proyecto">
+      <div class="proyecto-header">
+        <h3>ChessRadar</h3>
+        <div class="proyecto-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Supabase</span>
+          <span class="tag">Expo</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+      <p>
+        Red social del ajedrez en el mapa: permite a jugadores organizar quedadas,
+        gestionar torneos con sistema de rondas, consultar rankings ELO en tiempo real
+        y chatear entre sí. Los usuarios pueden ver en un mapa interactivo (Mapbox)
+        dónde hay otros jugadores o eventos cerca, unirse a partidas y torneos, y seguir
+        su progreso con el sistema de ranking ELO clásico (K=32). Desarrollado en equipo
+        como monorepo con Turborepo, incluyendo app web (Next.js App Router + shadcn/ui)
+        y app móvil (Expo + React Native).
+      </p>
+      <div class="proyecto-links">
+        <a href="https://github.com/rflvz/chessRadar" target="_blank" class="link-codigo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+          Ver código
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ======================== CONTACTO ======================== -->
+  <section id="contacto" class="reveal">
+    <h2>Contacto</h2>
+    <p>Si quieres contactarme o ver más de mi trabajo, aquí tienes mis redes:</p>
+    <ul class="contacto-lista">
+      <li>
+        <span class="contacto-label">Email</span>
+        <a href="mailto:marcosgarciasanchez92@gmail.com" target="_blank">marcosgarciasanchez92@gmail.com</a>
+      </li>
+      <li>
+        <span class="contacto-label">GitHub</span>
+        <a href="https://github.com/Panzuzu135-bot" target="_blank">Panzuzu135</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ======================== PIE DE PAGINA ======================== -->
+  <footer>
+    <p>Marcos García Sánchez &mdash; 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
