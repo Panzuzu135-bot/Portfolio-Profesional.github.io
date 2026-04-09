@@ -279,9 +279,10 @@ const observerNav = new IntersectionObserver((entradas) => {
 secciones.forEach((s) => observerNav.observe(s));
 
 /* ============================================================
-   HEADER — sombra al hacer scroll
+   HEADER — sombra al hacer scroll + SCROLL PROGRESS BAR
    ============================================================ */
 const header = document.querySelector('header');
+const scrollProgress = document.getElementById('scroll-progress');
 
 window.addEventListener('scroll', () => {
   if (window.scrollY > 20) {
@@ -289,7 +290,82 @@ window.addEventListener('scroll', () => {
   } else {
     header.classList.remove('scrolled');
   }
+
+  // Barra de progreso de scroll
+  if (scrollProgress) {
+    const total = document.body.scrollHeight - window.innerHeight;
+    scrollProgress.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+  }
 }, { passive: true });
+
+/* ============================================================
+   ANIMACION DE LETRAS — nombre en hero (spring stagger)
+   ============================================================ */
+(function initLetterAnimation() {
+  const nombreEl = document.querySelector('.hero-nombre');
+  if (!nombreEl) return;
+
+  const texto = nombreEl.textContent;
+  nombreEl.textContent = '';
+
+  texto.split('').forEach((char, i) => {
+    if (char === ' ') {
+      nombreEl.appendChild(document.createTextNode(' '));
+      return;
+    }
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.textContent = char;
+    span.style.animationDelay = (0.75 + i * 0.05) + 's';
+    nombreEl.appendChild(span);
+  });
+})();
+
+/* ============================================================
+   CURSOR PERSONALIZADO — dot inmediato + ring con lerp
+   ============================================================ */
+(function initCustomCursor() {
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
+
+  let mx = -100, my = -100;
+  let rx = -100, ry = -100;
+  let ringActive = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.transform  = `translate(${mx - 3}px, ${my - 3}px)`;
+  });
+
+  // Hover sobre elementos interactivos
+  document.querySelectorAll('a, button, .stack-dot').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { ring.classList.remove('hover'); });
+  });
+
+  // Press
+  window.addEventListener('mousedown', () => ring.classList.add('pressed'));
+  window.addEventListener('mouseup',   () => ring.classList.remove('pressed'));
+
+  // Ocultar cursor al salir de la ventana
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity  = '0';
+    ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity  = '1';
+    ring.style.opacity = '1';
+  });
+
+  (function loopRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 15}px, ${ry - 15}px)`;
+    requestAnimationFrame(loopRing);
+  })();
+})();
 
 /* ============================================================
    STACK CAROUSEL — proyectos apilados con swipe horizontal
@@ -452,4 +528,26 @@ window.addEventListener('scroll', () => {
   cards.forEach(c => { c.style.transition = 'none'; });
   updateStack();
   requestAnimationFrame(() => { cards.forEach(c => { c.style.transition = ''; }); });
+
+  /* ---- Tilt 3D en la card activa ---- */
+  stack.addEventListener('mousemove', (e) => {
+    const activeCard = cards[current];
+    if (!activeCard || activeCard.classList.contains('is-dragging')) return;
+    const rect = activeCard.getBoundingClientRect();
+    const cx = rect.left + rect.width  / 2;
+    const cy = rect.top  + rect.height / 2;
+    const nx = (e.clientX - cx) / (rect.width  / 2); // [-1, 1]
+    const ny = (e.clientY - cy) / (rect.height / 2); // [-1, 1]
+    const MAX = 6;
+    activeCard.style.transform  = `perspective(800px) rotateX(${-ny * MAX}deg) rotateY(${nx * MAX}deg)`;
+    activeCard.style.transition = 'transform 0.1s ease';
+  });
+
+  stack.addEventListener('mouseleave', () => {
+    const activeCard = cards[current];
+    if (!activeCard) return;
+    activeCard.style.transition = 'transform 0.4s ease';
+    activeCard.style.transform  = '';
+    setTimeout(() => { if (activeCard.style.transform === '') activeCard.style.transition = ''; }, 400);
+  });
 })();
