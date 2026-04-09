@@ -378,7 +378,7 @@ window.addEventListener('scroll', () => {
   const dots   = [...document.querySelectorAll('.stack-dot')];
   if (cards.length < 2) return;
 
-  const PEEK      = 40;   // px de la siguiente card que asoma debajo
+  const PEEK      = 36;   // px de la siguiente card que asoma debajo (debe coincidir con .is-next CSS)
   const THRESHOLD = 80;   // px de arrastre mínimo para cambiar card
   const DEAD_ZONE = 8;    // px antes de activar el drag visual
 
@@ -473,19 +473,17 @@ window.addEventListener('scroll', () => {
       }, 340);
 
     } else {
-      // ---- Snap back ----
-      const ease    = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      const ni      = (current + 1) % cards.length;
-      cards[current].style.transition = ease;
-      cards[current].style.transform  = '';
-      cards[ni].style.transition      = ease;
-      cards[ni].style.transform       = `translateY(${PEEK}px) scale(0.97)`;
+      // ---- Snap back — quitar inline styles y dejar que el CSS (.stack-card transition) lo anime ----
+      animating = true;
+      const ni = (current + 1) % cards.length;
 
-      setTimeout(() => {
-        cards[current].style.transition = '';
-        cards[ni].style.transition      = '';
-        cards[ni].style.transform       = '';
-      }, 350);
+      // Eliminar overrides inline → la transition del CSS class se encarga del retorno suave
+      cards[current].style.transition = '';
+      cards[current].style.transform  = '';
+      cards[ni].style.transition      = '';
+      cards[ni].style.transform       = '';
+
+      setTimeout(() => { animating = false; }, 420);
     }
   }
 
