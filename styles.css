@@ -93,7 +93,6 @@ body { cursor: none; }
   background: rgba(108, 99, 255, 0.2);
 }
 
-/* Restaurar cursor por defecto en móvil (sin cursor custom) */
 @media (hover: none) {
   body { cursor: auto; }
   #cursor-dot, #cursor-ring { display: none; }
@@ -268,15 +267,9 @@ p {
 
 .hero-nombre {
   display: inline-block;
-}
-
-/* Nombre */
-.hero-nombre {
-  display: inline-block;
   color: #a78bfa;
 }
 
-/* Letras individuales — entrada escalonada desde abajo */
 .hero-nombre .letter {
   display: inline-block;
   opacity: 0;
@@ -288,7 +281,6 @@ p {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Espacio entre palabras */
 .hero-nombre .letter-space {
   display: inline-block;
   width: 0.28em;
@@ -570,7 +562,14 @@ p {
   padding: 2rem 2rem 1.5rem;
   border: 1px solid #333;
   border-left: 4px solid var(--color-acento);
-  transition: box-shadow 0.2s;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.2s;
+}
+
+.testimonio-card.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .testimonio-card:hover {
