@@ -106,27 +106,29 @@ const observerOpciones = {
   rootMargin: '0px 0px -40px 0px',
 };
 
-// Revela secciones con clase .reveal
+// Revela secciones con clase .reveal — bidireccional
 const observerSecciones = new IntersectionObserver((entradas) => {
   entradas.forEach((entrada) => {
     if (entrada.isIntersecting) {
       entrada.target.classList.add('visible');
-      observerSecciones.unobserve(entrada.target);
+    } else {
+      entrada.target.classList.remove('visible');
     }
   });
 }, observerOpciones);
 
 document.querySelectorAll('.reveal').forEach((el) => observerSecciones.observe(el));
 
-// Revela los tags de habilidades con retraso escalonado
+// Revela los tags de habilidades con retraso escalonado — bidireccional
 const observerSkills = new IntersectionObserver((entradas) => {
   entradas.forEach((entrada) => {
+    const items = entrada.target.querySelectorAll('li');
     if (entrada.isIntersecting) {
-      const items = entrada.target.querySelectorAll('li');
       items.forEach((item, i) => {
         setTimeout(() => item.classList.add('visible'), i * 70);
       });
-      observerSkills.unobserve(entrada.target);
+    } else {
+      items.forEach((item) => item.classList.remove('visible'));
     }
   });
 }, observerOpciones);
