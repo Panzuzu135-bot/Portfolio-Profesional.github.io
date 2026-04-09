@@ -290,3 +290,166 @@ window.addEventListener('scroll', () => {
     header.classList.remove('scrolled');
   }
 }, { passive: true });
+
+/* ============================================================
+   STACK CAROUSEL — proyectos apilados con swipe horizontal
+   ============================================================ */
+(function initProjectStack() {
+  const stack = document.querySelector('.proyectos-stack');
+  if (!stack) return;
+
+  const cards  = [...stack.querySelectorAll('.stack-card')];
+  const dots   = [...document.querySelectorAll('.stack-dot')];
+  if (cards.length < 2) return;
+
+  const PEEK      = 40;   // px de la siguiente card que asoma debajo
+  const THRESHOLD = 80;   // px de arrastre mínimo para cambiar card
+  const DEAD_ZONE = 8;    // px antes de activar el drag visual
+
+  let current     = 0;
+  let startX      = 0;
+  let dragX       = 0;
+  let dragging    = false;
+  let visualDrag  = false; // drag real superó el dead zone
+  let animating   = false;
+
+  /* ---- Altura del contenedor ---- */
+  function setHeight() {
+    // offsetHeight funciona en elementos absolute con left:0/right:0
+    const h = cards[current].offsetHeight;
+    stack.style.height = (h + PEEK) + 'px';
+  }
+
+  /* ---- Actualiza clases y posición del stack ---- */
+  function updateStack() {
+    cards.forEach((card, i) => {
+      card.classList.remove('is-active', 'is-next', 'is-hidden', 'is-dragging');
+      card.style.transform = '';
+      card.style.transition = '';
+      const offset = (i - current + cards.length) % cards.length;
+      if      (offset === 0) card.classList.add('is-active');
+      else if (offset === 1) card.classList.add('is-next');
+      else                   card.classList.add('is-hidden');
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    setHeight();
+  }
+
+  /* ---- Drag ---- */
+  function onStart(x) {
+    if (animating) return;
+    dragging   = true;
+    visualDrag = false;
+    startX     = x;
+    dragX      = 0;
+  }
+
+  function onMove(x) {
+    if (!dragging) return;
+    dragX = x - startX;
+
+    if (!visualDrag && Math.abs(dragX) < DEAD_ZONE) return;
+    visualDrag = true;
+
+    // Bloquear scroll táctil horizontal
+    const active = cards[current];
+    active.classList.add('is-dragging');
+    active.style.transition = 'none';
+
+    const angle = dragX * 0.035;
+    active.style.transform = `translateX(${dragX}px) rotate(${angle}deg)`;
+
+    // La siguiente card sube a medida que el arrastre aumenta
+    const ni       = (current + 1) % cards.length;
+    const progress = Math.min(Math.abs(dragX) / THRESHOLD, 1);
+    const ny       = PEEK * (1 - progress);
+    const ns       = 0.97 + 0.03 * progress;
+    cards[ni].style.transition = 'none';
+    cards[ni].style.transform  = `translateY(${ny}px) scale(${ns})`;
+  }
+
+  function onEnd() {
+    if (!dragging) return;
+    dragging = false;
+    cards[current].classList.remove('is-dragging');
+
+    if (!visualDrag) return; // fue un click, no un drag
+
+    if (Math.abs(dragX) > THRESHOLD) {
+      // ---- Swipe consumado: animar la card fuera ----
+      animating = true;
+      const dir     = dragX > 0 ? 1 : -1;
+      const outCard = cards[current];
+      outCard.style.transition = 'transform 0.35s ease';
+      outCard.style.transform  = `translateX(${dir * 115}%) rotate(${dir * 22}deg) scale(0.75)`;
+
+      setTimeout(() => {
+        current = dragX > 0
+          ? (current - 1 + cards.length) % cards.length
+          : (current + 1) % cards.length;
+
+        // Reset instantáneo de la card saliente (invisible mientras cambia)
+        outCard.style.transition = 'none';
+        outCard.style.transform  = '';
+
+        updateStack();
+        requestAnimationFrame(() => { animating = false; });
+      }, 340);
+
+    } else {
+      // ---- Snap back ----
+      const ease    = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      const ni      = (current + 1) % cards.length;
+      cards[current].style.transition = ease;
+      cards[current].style.transform  = '';
+      cards[ni].style.transition      = ease;
+      cards[ni].style.transform       = `translateY(${PEEK}px) scale(0.97)`;
+
+      setTimeout(() => {
+        cards[current].style.transition = '';
+        cards[ni].style.transition      = '';
+        cards[ni].style.transform       = '';
+      }, 350);
+    }
+  }
+
+  /* ---- Event listeners ---- */
+  stack.addEventListener('mousedown', e => {
+    // Solo botón izquierdo
+    if (e.button !== 0) return;
+    onStart(e.clientX);
+  });
+  window.addEventListener('mousemove', e => onMove(e.clientX));
+  window.addEventListener('mouseup',   onEnd);
+
+  // Suprimir click en links si hubo drag real
+  stack.addEventListener('click', e => {
+    if (visualDrag && Math.abs(dragX) > DEAD_ZONE) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+
+  stack.addEventListener('touchstart', e => onStart(e.touches[0].clientX), { passive: true });
+  window.addEventListener('touchmove',  e => {
+    if (dragging && visualDrag) e.preventDefault();
+    if (dragging) onMove(e.touches[0].clientX);
+  }, { passive: false });
+  window.addEventListener('touchend', onEnd);
+
+  // Dots clickables
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      if (animating || i === current) return;
+      current = i;
+      updateStack();
+    });
+  });
+
+  window.addEventListener('resize', setHeight);
+
+  /* ---- Init sin transición ---- */
+  cards.forEach(c => { c.style.transition = 'none'; });
+  updateStack();
+  requestAnimationFrame(() => { cards.forEach(c => { c.style.transition = ''; }); });
+})();
