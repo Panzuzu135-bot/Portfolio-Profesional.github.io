@@ -9,12 +9,10 @@ import { createNoise2D } from 'simplex-noise';
 
   const svgNS = 'http://www.w3.org/2000/svg';
 
-  // SVG
   const svg = document.createElementNS(svgNS, 'svg');
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   container.appendChild(svg);
 
-  // Dot cursor
   const dot = document.createElement('div');
   dot.className = 'waves-dot';
   container.appendChild(dot);
@@ -174,8 +172,7 @@ import { createNoise2D } from 'simplex-noise';
   window.addEventListener('mousemove', e => updateMouse(e.clientX, e.clientY));
   window.addEventListener('touchmove', e => {
     e.preventDefault();
-    const t = e.touches[0];
-    updateMouse(t.clientX, t.clientY);
+    updateMouse(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: false });
 })();
 
@@ -201,7 +198,6 @@ function escribir() {
   if (!borrando) {
     elementoTyping.textContent = frase.slice(0, charActual + 1);
     charActual++;
-
     if (charActual === frase.length) {
       setTimeout(() => { borrando = true; }, 1800);
       setTimeout(escribir, 2200);
@@ -210,57 +206,60 @@ function escribir() {
   } else {
     elementoTyping.textContent = frase.slice(0, charActual - 1);
     charActual--;
-
     if (charActual === 0) {
       borrando = false;
       fraseActual = (fraseActual + 1) % frases.length;
     }
   }
 
-  const velocidad = borrando ? 60 : 90;
-  setTimeout(escribir, velocidad);
+  setTimeout(escribir, borrando ? 60 : 90);
 }
 
 escribir();
 
 /* ============================================================
-   SCROLL REVEAL — secciones y habilidades (bidireccional)
+   OBSERVERS — scroll reveal, nav activa, stagger
    ============================================================ */
-const observerOpciones = {
-  threshold: 0.12,
-  rootMargin: '0px 0px -40px 0px',
-};
+const observerOpts = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
 
+// Reveal de secciones (bidireccional)
 const observerSecciones = new IntersectionObserver((entradas) => {
-  entradas.forEach((entrada) => {
-    if (entrada.isIntersecting) {
-      entrada.target.classList.add('visible');
-    } else {
-      entrada.target.classList.remove('visible');
-    }
-  });
-}, observerOpciones);
+  entradas.forEach((e) => e.target.classList.toggle('visible', e.isIntersecting));
+}, observerOpts);
 
 document.querySelectorAll('.reveal').forEach((el) => observerSecciones.observe(el));
 
-
-/* ============================================================
-   NAVEGACION ACTIVA — resalta el enlace de la sección visible
-   ============================================================ */
-const secciones = document.querySelectorAll('section[id]');
-const enlacesNav = document.querySelectorAll('nav a');
-
+// Navegación activa
 const observerNav = new IntersectionObserver((entradas) => {
   entradas.forEach((entrada) => {
-    if (entrada.isIntersecting) {
-      enlacesNav.forEach((a) => a.classList.remove('activo'));
-      const enlaceActivo = document.querySelector(`nav a[href="#${entrada.target.id}"]`);
-      if (enlaceActivo) enlaceActivo.classList.add('activo');
-    }
+    if (!entrada.isIntersecting) return;
+    document.querySelectorAll('nav a').forEach((a) => a.classList.remove('activo'));
+    const enlace = document.querySelector(`nav a[href="#${entrada.target.id}"]`);
+    if (enlace) enlace.classList.add('activo');
   });
 }, { threshold: 0.4 });
 
-secciones.forEach((s) => observerNav.observe(s));
+document.querySelectorAll('section[id]').forEach((s) => observerNav.observe(s));
+
+// Helper reutilizable: anima hijos con retraso escalonado al entrar en viewport
+function createStaggerObserver(childSelector, delay, opts = {}) {
+  return new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      const items = [...entrada.target.querySelectorAll(childSelector)];
+      if (entrada.isIntersecting) {
+        items.forEach((item, i) => setTimeout(() => item.classList.add('visible'), i * delay));
+      } else {
+        items.forEach((item) => item.classList.remove('visible'));
+      }
+    });
+  }, { ...observerOpts, ...opts });
+}
+
+const skillsList = document.querySelector('.skills-list');
+if (skillsList) createStaggerObserver('li', 70).observe(skillsList);
+
+const testimoniosGrid = document.querySelector('.testimonios-grid');
+if (testimoniosGrid) createStaggerObserver('.testimonio-card', 180, { threshold: 0.08 }).observe(testimoniosGrid);
 
 /* ============================================================
    HEADER — sombra al hacer scroll + SCROLL PROGRESS BAR
@@ -269,11 +268,7 @@ const header = document.querySelector('header');
 const scrollProgress = document.getElementById('scroll-progress');
 
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
+  header.classList.toggle('scrolled', window.scrollY > 20);
 
   if (scrollProgress) {
     const total = document.body.scrollHeight - window.innerHeight;
@@ -318,25 +313,19 @@ window.addEventListener('scroll', () => {
   window.addEventListener('mousemove', (e) => {
     mx = e.clientX;
     my = e.clientY;
-    dot.style.transform  = `translate(${mx - 3}px, ${my - 3}px)`;
+    dot.style.transform = `translate(${mx - 3}px, ${my - 3}px)`;
   });
 
   document.querySelectorAll('a, button, .stack-dot').forEach(el => {
-    el.addEventListener('mouseenter', () => { ring.classList.add('hover'); });
-    el.addEventListener('mouseleave', () => { ring.classList.remove('hover'); });
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
   });
 
   window.addEventListener('mousedown', () => ring.classList.add('pressed'));
   window.addEventListener('mouseup',   () => ring.classList.remove('pressed'));
 
-  document.addEventListener('mouseleave', () => {
-    dot.style.opacity  = '0';
-    ring.style.opacity = '0';
-  });
-  document.addEventListener('mouseenter', () => {
-    dot.style.opacity  = '1';
-    ring.style.opacity = '1';
-  });
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
 
   (function loopRing() {
     rx += (mx - rx) * 0.12;
@@ -391,9 +380,8 @@ window.addEventListener('scroll', () => {
       const rect = slide.getBoundingClientRect();
       const nx = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2);
       const ny = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2);
-      const MAX = 5;
       slide.style.transition = 'transform 0.08s ease';
-      slide.style.transform  = `perspective(900px) rotateX(${-ny * MAX}deg) rotateY(${nx * MAX}deg)`;
+      slide.style.transform  = `perspective(900px) rotateX(${-ny * 5}deg) rotateY(${nx * 5}deg)`;
     });
 
     viewport.addEventListener('mouseleave', () => resetTilt(slides[current]));
@@ -401,41 +389,3 @@ window.addEventListener('scroll', () => {
 
   goTo(0);
 })();
-
-/* ============================================================
-   SKILLS LIST — animación escalonada al hacer scroll
-   ============================================================ */
-const observerSkills = new IntersectionObserver((entradas) => {
-  entradas.forEach((entrada) => {
-    const items = entrada.target.querySelectorAll('li');
-    if (entrada.isIntersecting) {
-      items.forEach((item, i) => {
-        setTimeout(() => item.classList.add('visible'), i * 70);
-      });
-    } else {
-      items.forEach((item) => item.classList.remove('visible'));
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-const skillsList = document.querySelector('.skills-list');
-if (skillsList) observerSkills.observe(skillsList);
-
-/* ============================================================
-   TESTIMONIOS — animación escalonada al hacer scroll
-   ============================================================ */
-const observerTestimonios = new IntersectionObserver((entradas) => {
-  entradas.forEach((entrada) => {
-    const cards = entrada.target.querySelectorAll('.testimonio-card');
-    if (entrada.isIntersecting) {
-      cards.forEach((card, i) => {
-        setTimeout(() => card.classList.add('visible'), i * 180);
-      });
-    } else {
-      cards.forEach((card) => card.classList.remove('visible'));
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-const testimoniosGrid = document.querySelector('.testimonios-grid');
-if (testimoniosGrid) observerTestimonios.observe(testimoniosGrid);
