@@ -268,25 +268,26 @@ p {
 
 .hero-nombre {
   display: inline-block;
-  background: linear-gradient(90deg, #6c63ff 0%, #a78bfa 25%, #e0d7ff 50%, #a78bfa 75%, #6c63ff 100%);
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradientShift 6s linear infinite;
 }
 
 @keyframes gradientShift {
   0%   { background-position: 0%   50%; }
-  100% { background-position: 250% 50%; }
+  100% { background-position: 300% 50%; }
 }
 
-/* Letras individuales — animadas desde abajo */
+/* Letras individuales — gradiente animado + entrada desde abajo */
 .hero-nombre .letter {
   display: inline-block;
+  background: linear-gradient(90deg, #6c63ff 0%, #a78bfa 30%, #e0d7ff 60%, #a78bfa 80%, #6c63ff 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   opacity: 0;
   transform: translateY(36px);
-  animation: letterIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation:
+    letterIn     0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    gradientShift 6s   linear infinite;
 }
 
 @keyframes letterIn {
