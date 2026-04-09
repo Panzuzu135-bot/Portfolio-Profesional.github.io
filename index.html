@@ -69,97 +69,114 @@
   <!-- ======================== HABILIDADES ======================== -->
   <section id="habilidades" class="reveal">
     <h2>Habilidades</h2>
-    <ul class="skills-list">
-      <li>HTML y CSS</li>
-      <li>JavaScript</li>
-      <li>TypeScript</li>
-      <li>React / Next.js</li>
-      <li>Node.js</li>
-      <li>Java</li>
-      <li>Python</li>
-      <li>SQL / PostgreSQL</li>
-      <li>Supabase</li>
-      <li>Git / GitHub</li>
-      <li>Tailwind CSS</li>
-      <li>REST APIs</li>
-    </ul>
+    <div id="orbiting-skills">
+      <!-- Centro -->
+      <div class="orbit-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none"
+             stroke="url(#orbit-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <defs>
+            <linearGradient id="orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#06B6D4"/>
+              <stop offset="100%" stop-color="#9333EA"/>
+            </linearGradient>
+          </defs>
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+      </div>
+      <!-- Anillos de órbita -->
+      <div class="orbit-ring orbit-inner"></div>
+      <div class="orbit-ring orbit-outer"></div>
+      <!-- Los iconos de habilidades los crea JS -->
+    </div>
   </section>
 
   <!-- ======================== PROYECTOS ======================== -->
   <section id="proyectos" class="reveal">
     <h2>Proyectos</h2>
-    <div class="proyectos-stack">
 
-    <!-- ChessTogether -->
-    <article class="proyecto stack-card">
-      <div class="proyecto-header">
-        <h3>ChessTogether</h3>
-        <div class="proyecto-tags">
-          <span class="tag">Next.js</span>
-          <span class="tag">TypeScript</span>
-          <span class="tag">Supabase</span>
-          <span class="tag">Expo</span>
-          <span class="tag">PostgreSQL</span>
-        </div>
+    <div class="carousel-root">
+      <div class="carousel-control">
+        <button class="carousel-btn carousel-prev" aria-label="Proyecto anterior">&#8592; Anterior</button>
+        <button class="carousel-btn carousel-next" aria-label="Proyecto siguiente">Siguiente &#8594;</button>
       </div>
-      <p>
-        Plataforma social para jugadores de ajedrez que combina mapa interactivo, torneos y
-        sistema de ranking ELO en tiempo real. Los usuarios pueden ver en el mapa quién hay
-        cerca disponible para jugar, crear o unirse a quedadas y torneos, y seguir su progreso
-        con el clásico sistema ELO (K=32).
-      </p>
-      <p>
-        Desarrollado en equipo como monorepo con Turborepo: incluye app web con Next.js App Router
-        y shadcn/ui, y app móvil con Expo y React Native. El backend usa Supabase con PostgreSQL
-        y PostGIS para consultas geoespaciales, Supabase Realtime para actualizaciones en vivo,
-        y Auth.js v5 para autenticación. La gestión del proyecto se llevó con Linear siguiendo
-        un flujo de trabajo estructurado con issues, specs y pull requests.
-      </p>
-      <div class="proyecto-links">
-        <a href="https://github.com/Panzuzu135-bot/chessRadar" target="_blank" class="link-codigo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-          Ver código
-        </a>
-      </div>
-    </article>
 
-    <!-- CodeOrchester -->
-    <article class="proyecto stack-card">
-      <div class="proyecto-header">
-        <h3>CodeOrchester</h3>
-        <div class="proyecto-tags">
-          <span class="tag">Electron</span>
-          <span class="tag">React</span>
-          <span class="tag">TypeScript</span>
-          <span class="tag">Rust</span>
-          <span class="tag">IA</span>
-        </div>
-      </div>
-      <p>
-        Aplicación de escritorio para orquestar múltiples agentes de inteligencia artificial
-        desde una sola interfaz. Permite lanzar y gestionar sesiones de Claude CLI de forma
-        interactiva, integrando además la API de MiniMax para combinar distintos modelos de IA
-        en flujos de trabajo personalizados.
-      </p>
-      <p>
-        Construida con Electron, React y TypeScript para la interfaz, y un backend en Rust para
-        las operaciones de sistema más exigentes. Usa xterm.js y node-pty para emular terminales
-        reales dentro de la app, y Tailwind CSS con Zustand para el estado global. Incluye tests
-        con Vitest y Playwright.
-      </p>
-      <div class="proyecto-links">
-        <a href="https://github.com/Panzuzu135-bot/CodeOrchester" target="_blank" class="link-codigo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-          Ver código
-        </a>
-      </div>
-    </article>
+      <div class="carousel-viewport">
+        <div class="carousel-track">
 
-    </div><!-- /proyectos-stack -->
-    <div class="stack-indicators">
-      <span class="stack-dot active"></span>
-      <span class="stack-dot"></span>
-    </div>
+          <!-- ChessTogether -->
+          <article class="proyecto">
+            <div class="proyecto-header">
+              <h3>ChessTogether</h3>
+              <div class="proyecto-tags">
+                <span class="tag">Next.js</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Supabase</span>
+                <span class="tag">Expo</span>
+                <span class="tag">PostgreSQL</span>
+              </div>
+            </div>
+            <p>
+              Plataforma social para jugadores de ajedrez que combina mapa interactivo, torneos y
+              sistema de ranking ELO en tiempo real. Los usuarios pueden ver en el mapa quién hay
+              cerca disponible para jugar, crear o unirse a quedadas y torneos, y seguir su progreso
+              con el clásico sistema ELO (K=32).
+            </p>
+            <p>
+              Desarrollado en equipo como monorepo con Turborepo: incluye app web con Next.js App Router
+              y shadcn/ui, y app móvil con Expo y React Native. El backend usa Supabase con PostgreSQL
+              y PostGIS para consultas geoespaciales, Supabase Realtime para actualizaciones en vivo,
+              y Auth.js v5 para autenticación. La gestión del proyecto se llevó con Linear siguiendo
+              un flujo de trabajo estructurado con issues, specs y pull requests.
+            </p>
+            <div class="proyecto-links">
+              <a href="https://github.com/Panzuzu135-bot/chessRadar" target="_blank" class="link-codigo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                Ver código
+              </a>
+            </div>
+          </article>
+
+          <!-- CodeOrchester -->
+          <article class="proyecto">
+            <div class="proyecto-header">
+              <h3>CodeOrchester</h3>
+              <div class="proyecto-tags">
+                <span class="tag">Electron</span>
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Rust</span>
+                <span class="tag">IA</span>
+              </div>
+            </div>
+            <p>
+              Aplicación de escritorio para orquestar múltiples agentes de inteligencia artificial
+              desde una sola interfaz. Permite lanzar y gestionar sesiones de Claude CLI de forma
+              interactiva, integrando además la API de MiniMax para combinar distintos modelos de IA
+              en flujos de trabajo personalizados.
+            </p>
+            <p>
+              Construida con Electron, React y TypeScript para la interfaz, y un backend en Rust para
+              las operaciones de sistema más exigentes. Usa xterm.js y node-pty para emular terminales
+              reales dentro de la app, y Tailwind CSS con Zustand para el estado global. Incluye tests
+              con Vitest y Playwright.
+            </p>
+            <div class="proyecto-links">
+              <a href="https://github.com/Panzuzu135-bot/CodeOrchester" target="_blank" class="link-codigo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                Ver código
+              </a>
+            </div>
+          </article>
+
+        </div><!-- /carousel-track -->
+      </div><!-- /carousel-viewport -->
+
+      <div class="carousel-indicators">
+        <button class="carousel-indicator active" aria-label="Proyecto 1"></button>
+        <button class="carousel-indicator" aria-label="Proyecto 2"></button>
+      </div>
+    </div><!-- /carousel-root -->
 
   </section>
 
