@@ -559,6 +559,64 @@ p {
 }
 
 /* ============================================================
+   TESTIMONIOS
+   ============================================================ */
+.testimonio-card {
+  background-color: rgba(36, 36, 36, 0.9);
+  border-radius: var(--radio-borde);
+  padding: 2rem 2rem 1.5rem;
+  border: 1px solid #333;
+  border-left: 4px solid var(--color-acento);
+  transition: box-shadow 0.2s;
+}
+
+.testimonio-card:hover {
+  box-shadow: 0 8px 30px rgba(108, 99, 255, 0.12);
+}
+
+.testimonio-comillas {
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--color-acento);
+  opacity: 0.3;
+  font-family: Georgia, serif;
+  margin-bottom: -1.5rem;
+}
+
+.testimonio-texto p {
+  font-size: 1.05rem;
+  color: var(--color-texto-suave);
+  font-style: italic;
+  max-width: 65ch;
+}
+
+.testimonio-autor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.testimonio-autor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.testimonio-nombre {
+  font-weight: 600;
+  color: var(--color-texto);
+  font-size: 0.95rem;
+}
+
+.testimonio-rol {
+  font-size: 0.82rem;
+  color: var(--color-texto-suave);
+}
+
+/* ============================================================
    CONTACTO
    ============================================================ */
 .contacto-lista {
