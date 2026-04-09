@@ -35,12 +35,19 @@
   <section id="sobre-mi" class="reveal">
     <h2>Sobre mí</h2>
     <p>
-      Actualmente soy un estudiante de DAW al que le gusta mucho todo lo que tenga que ver
-      con la informática a nivel de programación, desarrollo y software. Algo que me apasiona mucho
-      son los videojuegos, que fue lo que me motivó a estudiar informática decantándome más
-      por el apartado web. Además de estudiar DAW, cuando tengo algo de tiempo libre estoy aprendiendo
-      por mi cuenta a programar en Python y también me estoy sacando el B1 de inglés para posteriormente
-      sacarme el B2 y el C1.
+      Soy estudiante de segundo año de DAW con una fuerte orientación hacia el desarrollo web
+      full-stack. Me apasiona construir aplicaciones desde cero: desde el diseño de la base de datos
+      hasta la interfaz de usuario, pasando por la lógica de negocio y la integración con APIs externas.
+    </p>
+    <p>
+      Fuera de clase sigo aprendiendo por mi cuenta: actualmente estoy profundizando en Python y
+      trabajando en proyectos reales en equipo usando tecnologías modernas como Next.js, Supabase y
+      React Native. También estoy preparando el B2 de inglés, lo que me permite leer documentación
+      técnica y colaborar en proyectos con equipos internacionales sin problemas.
+    </p>
+    <p>
+      Los videojuegos fueron los que me llevaron a la informática, y ese mismo interés por los
+      sistemas complejos y la experiencia de usuario es lo que guía cómo pienso el software hoy.
     </p>
   </section>
 
@@ -67,10 +74,10 @@
   <section id="proyectos" class="reveal">
     <h2>Proyectos</h2>
 
-    <!-- ChessRadar -->
+    <!-- ChessTogether -->
     <article class="proyecto">
       <div class="proyecto-header">
-        <h3>ChessTogether.app</h3>
+        <h3>ChessTogether</h3>
         <div class="proyecto-tags">
           <span class="tag">Next.js</span>
           <span class="tag">TypeScript</span>
@@ -80,16 +87,20 @@
         </div>
       </div>
       <p>
-        Red social del ajedrez en el mapa: permite a jugadores organizar quedadas,
-        gestionar torneos con sistema de rondas, consultar rankings ELO en tiempo real
-        y chatear entre sí. Los usuarios pueden ver en un mapa interactivo (Mapbox)
-        dónde hay otros jugadores o eventos cerca, unirse a partidas y torneos, y seguir
-        su progreso con el sistema de ranking ELO clásico (K=32). Desarrollado en equipo
-        como monorepo con Turborepo, incluyendo app web (Next.js App Router + shadcn/ui)
-        y app móvil (Expo + React Native).
+        Plataforma social para jugadores de ajedrez que combina mapa interactivo, torneos y
+        sistema de ranking ELO en tiempo real. Los usuarios pueden ver en el mapa quién hay
+        cerca disponible para jugar, crear o unirse a quedadas y torneos, y seguir su progreso
+        con el clásico sistema ELO (K=32).
+      </p>
+      <p>
+        Desarrollado en equipo como monorepo con Turborepo: incluye app web con Next.js App Router
+        y shadcn/ui, y app móvil con Expo y React Native. El backend usa Supabase con PostgreSQL
+        y PostGIS para consultas geoespaciales, Supabase Realtime para actualizaciones en vivo,
+        y Auth.js v5 para autenticación. La gestión del proyecto se llevó con Linear siguiendo
+        un flujo de trabajo estructurado con issues, specs y pull requests.
       </p>
       <div class="proyecto-links">
-        <a href="https://github.com/rflvz/chessRadar" target="_blank" class="link-codigo">
+        <a href="https://github.com/Panzuzu135-bot/chessRadar" target="_blank" class="link-codigo">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
           Ver código
         </a>
