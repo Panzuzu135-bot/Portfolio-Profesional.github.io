@@ -78,7 +78,6 @@ import { createNoise2D } from 'simplex-noise';
   }
 
   function updateMouse(x, y) {
-    // clientX/clientY son correctos para un elemento position:fixed
     mouse.x = x - bounding.left;
     mouse.y = y - bounding.top;
     if (!mouse.set) {
@@ -276,7 +275,6 @@ window.addEventListener('scroll', () => {
     header.classList.remove('scrolled');
   }
 
-  // Barra de progreso de scroll
   if (scrollProgress) {
     const total = document.body.scrollHeight - window.innerHeight;
     scrollProgress.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
@@ -316,7 +314,6 @@ window.addEventListener('scroll', () => {
 
   let mx = -100, my = -100;
   let rx = -100, ry = -100;
-  let ringActive = false;
 
   window.addEventListener('mousemove', (e) => {
     mx = e.clientX;
@@ -324,17 +321,14 @@ window.addEventListener('scroll', () => {
     dot.style.transform  = `translate(${mx - 3}px, ${my - 3}px)`;
   });
 
-  // Hover sobre elementos interactivos
   document.querySelectorAll('a, button, .stack-dot').forEach(el => {
     el.addEventListener('mouseenter', () => { ring.classList.add('hover'); });
     el.addEventListener('mouseleave', () => { ring.classList.remove('hover'); });
   });
 
-  // Press
   window.addEventListener('mousedown', () => ring.classList.add('pressed'));
   window.addEventListener('mouseup',   () => ring.classList.remove('pressed'));
 
-  // Ocultar cursor al salir de la ventana
   document.addEventListener('mouseleave', () => {
     dot.style.opacity  = '0';
     ring.style.opacity = '0';
@@ -383,7 +377,6 @@ window.addEventListener('scroll', () => {
   nextBtn.addEventListener('click', () => goTo(current + 1));
   indicators.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
 
-  // Swipe táctil
   let touchStartX = 0;
   track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
   track.addEventListener('touchend', e => {
@@ -391,7 +384,6 @@ window.addEventListener('scroll', () => {
     if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
   });
 
-  // Tilt 3D en la card activa
   if (viewport) {
     viewport.addEventListener('mousemove', e => {
       const slide = slides[current];
@@ -429,4 +421,21 @@ const observerSkills = new IntersectionObserver((entradas) => {
 const skillsList = document.querySelector('.skills-list');
 if (skillsList) observerSkills.observe(skillsList);
 
+/* ============================================================
+   TESTIMONIOS — animación escalonada al hacer scroll
+   ============================================================ */
+const observerTestimonios = new IntersectionObserver((entradas) => {
+  entradas.forEach((entrada) => {
+    const cards = entrada.target.querySelectorAll('.testimonio-card');
+    if (entrada.isIntersecting) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), i * 180);
+      });
+    } else {
+      cards.forEach((card) => card.classList.remove('visible'));
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
+const testimoniosGrid = document.querySelector('.testimonios-grid');
+if (testimoniosGrid) observerTestimonios.observe(testimoniosGrid);
