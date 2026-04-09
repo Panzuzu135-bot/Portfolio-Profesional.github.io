@@ -317,7 +317,92 @@ p {
 }
 
 /* ============================================================
-   PROYECTOS
+   PROYECTOS — STACK CAROUSEL
+   ============================================================ */
+.proyectos-stack {
+  position: relative;
+  user-select: none;
+  touch-action: pan-y;
+  /* altura gestionada por JS */
+}
+
+.stack-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 0;
+  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+  cursor: grab;
+}
+
+.stack-card.is-active {
+  z-index: 3;
+  opacity: 1;
+}
+
+.stack-card.is-next {
+  z-index: 2;
+  transform: translateY(36px) scale(0.97);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.stack-card.is-hidden {
+  z-index: 1;
+  transform: translateY(60px) scale(0.94);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stack-card.is-dragging {
+  cursor: grabbing;
+}
+
+.stack-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--color-texto-suave);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.stack-hint.hidden {
+  opacity: 0;
+}
+
+.stack-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.stack-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+.stack-dot.active {
+  background: var(--color-acento);
+  border-color: var(--color-acento);
+  transform: scale(1.2);
+}
+
+/* ============================================================
+   PROYECTOS — CARD BASE
    ============================================================ */
 .proyecto {
   background-color: rgba(36, 36, 36, 0.9);
@@ -325,12 +410,16 @@ p {
   padding: 1.75rem;
   margin-bottom: 1.5rem;
   border: 1px solid #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stack-card.is-active .proyecto,
+.proyecto:not(.stack-card) {
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .proyecto:hover {
   border-color: var(--color-acento);
-  transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(108, 99, 255, 0.12);
 }
 
