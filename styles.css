@@ -391,6 +391,62 @@ p {
 }
 
 /* ============================================================
+   CERTIFICACIONES
+   ============================================================ */
+.cert-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(36, 36, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  gap: 1rem;
+}
+
+.cert-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cert-nombre {
+  font-weight: 600;
+  color: var(--color-texto);
+  font-size: 1rem;
+}
+
+.cert-emisor {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+.cert-verificar {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-acento);
+  border: 1px solid var(--color-acento);
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.cert-verificar:hover {
+  background-color: var(--color-acento);
+  color: #fff;
+}
+
+/* ============================================================
    PROYECTOS — CARRUSEL HORIZONTAL
    ============================================================ */
 .carousel-root {
