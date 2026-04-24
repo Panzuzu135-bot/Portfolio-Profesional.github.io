@@ -66,9 +66,9 @@ import { createNoise2D } from 'simplex-noise';
 
       const path = document.createElementNS(svgNS, 'path');
       path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', '#ffffff');
+      path.setAttribute('stroke', '#818cf8');
       path.setAttribute('stroke-width', '1');
-      path.setAttribute('stroke-opacity', '0.18');
+      path.setAttribute('stroke-opacity', '0.13');
       svg.appendChild(path);
       paths.push(path);
       lines.push(points);
