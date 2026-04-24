@@ -346,8 +346,9 @@ window.addEventListener('scroll', () => {
   const indicators = [...document.querySelectorAll('.carousel-indicator')];
   if (!track || !prevBtn || !nextBtn) return;
 
-  const slides = [...track.children];
-  let current  = 0;
+  const slides  = [...track.children];
+  const counter = document.querySelector('.carousel-counter');
+  let current   = 0;
 
   function resetTilt(slide) {
     if (!slide) return;
@@ -355,11 +356,23 @@ window.addEventListener('scroll', () => {
     slide.style.transform  = '';
   }
 
+  function updateCounter() {
+    if (!counter) return;
+    counter.innerHTML = '';
+    const inner = document.createElement('span');
+    inner.className = 'carousel-counter-inner';
+    const cur   = String(current + 1).padStart(2, '0');
+    const total = String(slides.length).padStart(2, '0');
+    inner.innerHTML = `<span class="carousel-counter-current">${cur}</span><span class="carousel-counter-sep">/</span>${total}`;
+    counter.appendChild(inner);
+  }
+
   function goTo(index) {
     resetTilt(slides[current]);
     current = (index + slides.length) % slides.length;
     track.style.transform = `translateX(-${current * 100}%)`;
     indicators.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    updateCounter();
   }
 
   prevBtn.addEventListener('click', () => goTo(current - 1));
@@ -388,4 +401,18 @@ window.addEventListener('scroll', () => {
   }
 
   goTo(0);
+})();
+
+/* ============================================================
+   SPOTLIGHT — glow de cursor que sigue al ratón en tarjetas
+   ============================================================ */
+(function initSpotlight() {
+  const cards = document.querySelectorAll('.proyecto, .cert-item, .testimonio-card, .contacto-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', ((e.clientX - rect.left) / rect.width  * 100) + '%');
+      card.style.setProperty('--mouse-y', ((e.clientY - rect.top)  / rect.height * 100) + '%');
+    });
+  });
 })();

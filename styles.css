@@ -250,17 +250,22 @@ p {
 }
 
 /* ============================================================
-   SCROLL REVEAL
+   SCROLL REVEAL — con clip-path
    ============================================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(24px);
+  clip-path: inset(0% -2% 20% -2%);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    clip-path 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+  clip-path: inset(-5% -5% -5% -5%);
 }
 
 /* ============================================================
@@ -584,6 +589,36 @@ p {
   box-shadow: 0 0 10px rgba(129, 140, 248, 0.7);
 }
 
+.carousel-counter {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  min-width: 3.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.carousel-counter-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  animation: counterEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.carousel-counter-current {
+  color: var(--color-acento);
+}
+
+.carousel-counter-sep {
+  opacity: 0.3;
+  color: var(--color-texto-suave);
+}
+
+@keyframes counterEnter {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ============================================================
    PROYECTOS — CARD BASE
    ============================================================ */
@@ -836,6 +871,41 @@ p {
 .contacto-card:hover .contacto-card-flecha {
   color: var(--color-acento);
   transform: translateX(4px);
+}
+
+/* ============================================================
+   SPOTLIGHT — glow de cursor en tarjetas
+   ============================================================ */
+.proyecto,
+.cert-item,
+.contacto-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.proyecto::before,
+.cert-item::before,
+.contacto-card::before,
+.testimonio-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(129, 140, 248, 0.11) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.proyecto:hover::before,
+.cert-item:hover::before,
+.contacto-card:hover::before,
+.testimonio-card:hover::after {
+  opacity: 1;
 }
 
 /* ============================================================
